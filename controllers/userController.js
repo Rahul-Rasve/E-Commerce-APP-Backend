@@ -12,6 +12,11 @@ const registerController = async (req, res) => {
 				success: false,
 				message: "All fields are required!",
 			});
+		} else if (password.length < 6) {
+			return res.status(404).send({
+				success: false,
+				message: "Password must be at least 6 characters",
+			});
 		}
 
 		//check for existing user

@@ -106,4 +106,49 @@ const loginController = async (req, res) => {
 	}
 };
 
-module.exports = { registerController, loginController };
+const updateUserController = async (req, res) => {
+	try {
+		const { name, password, email } = req.body;
+
+		//find user
+		const user = await userModel.findOne({ email });
+
+		//check password length
+		if (password && password.length < 6) {
+			return res.status(400).send({
+				success: false,
+				message: "Password too short",
+			});
+		}
+
+		const hashedPassword = password ? await hashPassword(password) : undefined;
+
+		//updated user
+		const updatedUser = await userModel.findOneAndUpdate(
+			{ email },
+			{ name: name || user.name, password: hashedPassword || user.password },
+			{ new: true }
+		);
+
+		user.password = undefined;
+
+		return res.status(200).send({
+			success: true,
+			message: "User Updated Successfully",
+			updatedUser,
+		});
+	} catch (error) {
+		console.error(error);
+		return res.status(500).send({
+			success: false,
+			message: "Some error occurred in UserController",
+			error,
+		});
+	}
+};
+
+module.exports = {
+	registerController,
+	loginController,
+	updateUserController,
+};

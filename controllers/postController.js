@@ -10,7 +10,7 @@ const createPostController = async (req, res) => {
 				message: "Please provide all details",
 			});
 		}
-        
+
 		const post = await postModel({
 			title,
 			description,
@@ -32,4 +32,26 @@ const createPostController = async (req, res) => {
 	}
 };
 
-module.exports = { createPostController };
+const getAllPostsController = async (req, res) => {
+	try {
+		const posts = await postModel
+			.find()
+			.populate("postedBy", "_id name")
+			.sort({ createdAt: -1 });
+
+		return res.status(200).send({
+			success: true,
+			message: "All posts fetched successfully",
+			posts,
+		});
+	} catch (error) {
+		console.error(error);
+		return res.status(500).send({
+			success: false,
+			message: "Some error occurred in GetAllPostsController",
+			error,
+		});
+	}
+};
+
+module.exports = { createPostController, getAllPostsController };

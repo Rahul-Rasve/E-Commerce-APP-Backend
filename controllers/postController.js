@@ -37,7 +37,7 @@ const getAllPostsController = async (req, res) => {
 		const posts = await postModel
 			.find()
 			.populate("postedBy", "_id name")
-			.sort({ createdAt: -1 });
+			.sort({ createdAt: 1 });
 
 		return res.status(200).send({
 			success: true,

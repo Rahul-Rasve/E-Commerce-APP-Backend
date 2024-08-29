@@ -12,7 +12,7 @@ const router = express.Router();
 router.post("/create-post", requireSignIn, createPostController);
 
 // GET ALL POSTS
-router.get("/get-posts", requireSignIn, getAllPostsController);
+router.get("/get-posts", getAllPostsController);
 
 //export
 module.exports = router;

@@ -3,6 +3,9 @@ const { requireSignIn } = require("../controllers/userController");
 const {
 	createPostController,
 	getAllPostsController,
+	getUserPostsController,
+	updatePostController,
+	deletePostController,
 } = require("../controllers/postController");
 
 //router object
@@ -13,6 +16,15 @@ router.post("/create-post", requireSignIn, createPostController);
 
 // GET ALL POSTS
 router.get("/get-posts", getAllPostsController);
+
+// GET ALL POSTS
+router.get("/get-user-posts", requireSignIn, getUserPostsController);
+
+//UPDATE POST
+router.put("/update-post", requireSignIn, updatePostController);
+
+//DELETE POST
+router.delete("/delete-post", requireSignIn, deletePostController);
 
 //export
 module.exports = router;

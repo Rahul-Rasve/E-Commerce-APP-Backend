@@ -103,7 +103,6 @@ const updatePostController = async (req, res) => {
 	}
 };
 
-//TODO: not working!
 const deletePostController = async (req, res) => {
 	try {
 		const { _id } = req.body;
@@ -114,7 +113,6 @@ const deletePostController = async (req, res) => {
 		return res.status(200).send({
 			success: true,
 			message: "Post deleted successfully",
-			updatedPost,
 		});
 	} catch (error) {
 		console.error(error);

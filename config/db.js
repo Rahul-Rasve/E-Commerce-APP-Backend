@@ -4,7 +4,7 @@ const connectDB = async () => {
 	try {
 		await mongoose.connect(`mongodb+srv://admin:abcd1234@cluster0.l4r3w.mongodb.net/react-native-app`);
 		console.log(
-			`Database Connection established: ${mongoose.connection.host}`.bgCyan
+			`Database Connection established`.bgCyan
 				.white
 		);
 	} catch (error) {

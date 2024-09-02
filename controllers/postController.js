@@ -77,13 +77,13 @@ const getUserPostsController = async (req, res) => {
 
 const updatePostController = async (req, res) => {
 	try {
-		const { _id, title, description } = req.body;
+		const { title, description } = req.body;
 
 		//find the post
-		const post = await postModel.findOne({ _id: _id });
+		const post = await postModel.findById({ _id: req.params.id });
 
-		const updatedPost = await postModel.findOneAndUpdate(
-			{ _id: _id },
+		const updatedPost = await postModel.findByIdAndUpdate(
+			{ _id: req.params.id },
 			{ title: title || post.title, description: description || post.description },
 			{ new: true }
 		);
@@ -105,10 +105,10 @@ const updatePostController = async (req, res) => {
 
 const deletePostController = async (req, res) => {
 	try {
-		const { _id } = req.body;
+		const { id } = req.params;
 
 		//find the post
-		const post = await postModel.findOneAndDelete({ _id: _id });
+		const post = await postModel.findByIdAndDelete({ _id: id });
 
 		return res.status(200).send({
 			success: true,

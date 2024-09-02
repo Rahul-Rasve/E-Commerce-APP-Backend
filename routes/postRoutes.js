@@ -21,10 +21,10 @@ router.get("/get-posts", getAllPostsController);
 router.get("/get-user-posts", requireSignIn, getUserPostsController);
 
 //UPDATE POST
-router.put("/update-post", requireSignIn, updatePostController);
+router.put("/update-post/:id", requireSignIn, updatePostController);
 
 //DELETE POST
-router.delete("/delete-post", requireSignIn, deletePostController);
+router.delete("/delete-post/:id", requireSignIn, deletePostController);
 
 //export
 module.exports = router;

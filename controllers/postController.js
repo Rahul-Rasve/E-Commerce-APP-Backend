@@ -34,15 +34,28 @@ const createPostController = async (req, res) => {
 
 const getAllPostsController = async (req, res) => {
 	try {
+		const page = parseInt(req.params.page) || 1;
+		const limit = 15;
+		const skip = (page - 1) * limit;
+
+		let isLastPageFetched = false;
+
 		const posts = await postModel
 			.find()
+			.skip(skip)
+			.limit(limit)
 			.populate("postedBy", "_id name")
-			.sort({ createdAt: -1 });
+			.sort({ updatedAt: -1 });
+
+		if (posts.length < limit) {
+			isLastPageFetched = true;
+		}
 
 		return res.status(200).send({
 			success: true,
 			message: "All posts fetched successfully",
 			posts,
+			isLastPageFetched,
 		});
 	} catch (error) {
 		console.error(error);
@@ -56,14 +69,27 @@ const getAllPostsController = async (req, res) => {
 
 const getUserPostsController = async (req, res) => {
 	try {
+		const page = parseInt(req.params.page) || 1;
+		const limit = 15;
+		const skip = (page - 1) * limit;
+
+		let isLastPageFetched = false;
+
 		const userPosts = await postModel
 			.find({ postedBy: req.auth._id })
+			.skip(skip)
+			.limit(limit)
 			.sort({ updatedAt: -1 });
+
+		if (userPosts.length < limit) {
+			isLastPageFetched = true;
+		}
 
 		return res.status(200).send({
 			success: true,
 			message: "User posts fetched successfully",
 			userPosts,
+			isLastPageFetched,
 		});
 	} catch (error) {
 		console.error(error);
@@ -84,7 +110,10 @@ const updatePostController = async (req, res) => {
 
 		const updatedPost = await postModel.findByIdAndUpdate(
 			{ _id: req.params.id },
-			{ title: title || post.title, description: description || post.description },
+			{
+				title: title || post.title,
+				description: description || post.description,
+			},
 			{ new: true }
 		);
 

@@ -15,10 +15,10 @@ const router = express.Router();
 router.post("/create-post", requireSignIn, createPostController);
 
 // GET ALL POSTS
-router.get("/get-posts", getAllPostsController);
+router.get("/get-posts/:page", getAllPostsController);
 
 // GET ALL POSTS
-router.get("/get-user-posts", requireSignIn, getUserPostsController);
+router.get("/get-user-posts/:page", requireSignIn, getUserPostsController);
 
 //UPDATE POST
 router.put("/update-post/:id", requireSignIn, updatePostController);

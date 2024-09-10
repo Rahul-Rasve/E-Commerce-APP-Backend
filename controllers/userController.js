@@ -5,7 +5,7 @@ const { expressjwt: jwt } = require("express-jwt");
 
 //middleware
 const requireSignIn = jwt({
-	secret: "SDFSDLSDVSVSDVB23423K",
+	secret: process.env.JWT_SECRET_KEY,
 	algorithms: ["HS256"],
 });
 
